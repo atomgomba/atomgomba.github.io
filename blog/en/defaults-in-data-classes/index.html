@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Data classes and compiler safety - mémgyár </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="referrer" content="no-referrer">
+    <meta property="og:site_name" content="mémgyár">
+    <meta property="og:locale" content="en_US">
+
+    <meta property="og:url" content="/blog/en/defaults-in-data-classes/">
+  <meta property="og:site_name" content="mémgyár">
+  <meta property="og:title" content="Data classes and compiler safety">
+  <meta property="og:description" content="When adding a new property to an existing data class, the compiler can warn us when we forget to initialize its value somewhere in the codebase. But it can only help if the new property does not have a default value: without the help from the compiler, it is very easy to miss an unset value, particularly in large code bases! Going through all the places where the property is used also gives us a valuable chance to revisit the business logic and think about why and where it is used.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2026-02-25T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-02-25T00:00:00+00:00">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="Patterns">
+    <meta property="article:tag" content="Best-Practices">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <meta name="twitter:title" content="Data classes and compiler safety">
+    <meta name="twitter:description" content="">
+    
+
+    <meta name="twitter:image" content="/">
+    <link rel="canonical" href="/blog/en/defaults-in-data-classes/">
+    
+    <link rel="stylesheet" href="/css/site.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+    </head>
+
+  <body>
+    
+<div class="mt-xl header">
+  <header>
+    <div class="container">
+      <div class="row justify-content-center">
+	<div class="col-auto">
+	  <a href="/" style="display: contents">
+	    <h1 class="name text-center">m;mgy&#39;r</h1>
+	  </a>
+	</div>
+      </div>
+      <div class="row justify-content-center">
+	<div class="nav justify-content-center">
+	  <ul>
+	    
+	    
+	  </ul>
+	</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-lg-8">
+	<h1 class="mx-0 mx-md-4 blog-post-title">Data classes and compiler safety</h1>
+	<div class="meta-data meta">
+	  
+	  
+	  
+	  <span class="author meta-data" title="kiri">
+	    kiri
+	  </span>
+	  
+	  
+	  <span class="date middot meta-data" title='Wed Feb 25 2026 00:00:00 UTC'>
+	    2026-02-25
+	  </span>
+	  <span class="reading-time middot meta-data">
+	    2 min read
+	  </span>
+	  
+	  
+	  <a class="middot meta-data" href="/blog/en/defaults-in-data-classes/">Permalink</a>
+	  <div class="d-none d-md-inline tags">
+	    <ul class="list-unstyled d-inline">
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/kotlin">
+		  #kotlin
+		</a>
+	      </li>
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/patterns">
+		  #patterns
+		</a>
+	      </li>
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/best-practices">
+		  #best-practices
+		</a>
+	      </li>
+	      
+	    </ul>
+	  </div>
+	</div>
+	<div class="markdown blog-post-content">
+	  <p>When adding a new property to an existing data class, the compiler can warn us when we forget to initialize its value somewhere in the codebase. But it can only help if the new property does not have a default value: without the help from the compiler, it is very easy to miss an unset value, particularly in <em>large</em> code bases! Going through all the places where the property is used also gives us a valuable chance to revisit the business logic and think about why and where it is used.</p>
+<p>Defaults are better suited for <code>@Preview</code> functions and tests. It would be frustrating if every test and preview, however unrelated, required modification just because of a new property in a data class and relevant tests are going to fail anyway. We can make use of default values to satisfy our &ldquo;laziness&rdquo; and save on typing while still retaining compiler safety by <em>lifting the defaults out of the constructor</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#ca9ee6">data</span> <span style="color:#ca9ee6">class</span> <span style="color:#e5c890">Settings</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">itemsPerPage</span>: Int,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">confirmExit</span>: Boolean,
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">companion</span> <span style="color:#ca9ee6">object</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">Settings</span>.<span style="color:#e5c890">Companion</span>.Default
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">get</span>() = Settings(
+</span></span><span style="display:flex;"><span>        itemsPerPage = <span style="color:#ef9f76">25</span>,
+</span></span><span style="display:flex;"><span>        confirmExit = <span style="color:#ca9ee6">false</span>,
+</span></span><span style="display:flex;"><span>    )
+</span></span></code></pre></div><blockquote>
+<p>Please note in the code above that the default object isn&rsquo;t kept in memory at all times, but a new one is created everytime the getter of the property is called.</p>
+</blockquote>
+<p>This approach borrows from the <a href="https://doc.rust-lang.org/beta/std/default/trait.Default.html">Default</a> trait in Rust and the <a href="https://elizarov.medium.com/extension-oriented-design-13f4f27deaee">Extension-oriented design</a> pattern.</p>
+
+
+	</div>
+	
+      </div>
+      <hr class="footer-linebreak">
+<div class="container">
+  <span class="row justify-content-center meta" id="footer">
+    Copyright © 2026 Károly Kiripolszky
+  </span>
+  <script defer src="/js/custom.js"></script>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+  </body>
+
+</html>

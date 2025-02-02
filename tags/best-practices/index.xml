@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <title>Best-Practices on mémgyár</title>
+    <link>/tags/best-practices/</link>
+    <description>Recent content in Best-Practices on mémgyár</description>
+    
+    <language>en</language>
+    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="/tags/best-practices/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data classes and compiler safety</title>
+      <link>/blog/en/defaults-in-data-classes/</link>
+      <category>kotlin</category>
+      <category>patterns</category>
+      <category>best-practices</category><pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/defaults-in-data-classes/</guid>
+      <description>When adding a new property to an existing data class, the compiler can warn us when we forget to initialize its value somewhere in the codebase. But it can only help if the new property does not have a default value: without the help from the compiler, it is very easy to miss an unset value, particularly in large code bases! Going through all the places where the property is used also gives us a valuable chance to revisit the business logic and think about why and where it is used.</description>
+    </item>
+    
+    <item>
+      <title>Decoration in Kotlin</title>
+      <link>/blog/en/decoration-in-kotlin/</link>
+      <category>kotlin</category>
+      <category>patterns</category>
+      <category>best-practices</category><pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/decoration-in-kotlin/</guid>
+      <description>When I&amp;rsquo;m bumping into an interface with only one implementation, it makes me think of reasons why is that interface even needed?
+Common arguments Interfaces are good for many things: promote code re-use by abstraction, help define boundaries in architecture, provide a form of multiple inheritance and so on, but usually a common argument for using them is that they make it easy to swap implementations, thus they also help with testing.</description>
+    </item>
+    
+  </channel>
+</rss>

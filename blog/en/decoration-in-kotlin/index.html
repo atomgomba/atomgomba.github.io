@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Decoration in Kotlin - mémgyár </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="referrer" content="no-referrer">
+    <meta property="og:site_name" content="mémgyár">
+    <meta property="og:locale" content="en_US">
+
+    <meta property="og:url" content="/blog/en/decoration-in-kotlin/">
+  <meta property="og:site_name" content="mémgyár">
+  <meta property="og:title" content="Decoration in Kotlin">
+  <meta property="og:description" content="When I’m bumping into an interface with only one implementation, it makes me think of reasons why is that interface even needed?
+Common arguments Interfaces are good for many things: promote code re-use by abstraction, help define boundaries in architecture, provide a form of multiple inheritance and so on, but usually a common argument for using them is that they make it easy to swap implementations, thus they also help with testing.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-02-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-02-02T00:00:00+00:00">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="Patterns">
+    <meta property="article:tag" content="Best-Practices">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <meta name="twitter:title" content="Decoration in Kotlin">
+    <meta name="twitter:description" content="">
+    
+
+    <meta name="twitter:image" content="/">
+    <link rel="canonical" href="/blog/en/decoration-in-kotlin/">
+    
+    <link rel="stylesheet" href="/css/site.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+    </head>
+
+  <body>
+    
+<div class="mt-xl header">
+  <header>
+    <div class="container">
+      <div class="row justify-content-center">
+	<div class="col-auto">
+	  <a href="/" style="display: contents">
+	    <h1 class="name text-center">m;mgy&#39;r</h1>
+	  </a>
+	</div>
+      </div>
+      <div class="row justify-content-center">
+	<div class="nav justify-content-center">
+	  <ul>
+	    
+	    
+	  </ul>
+	</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-lg-8">
+	<h1 class="mx-0 mx-md-4 blog-post-title">Decoration in Kotlin</h1>
+	<div class="meta-data meta">
+	  
+	  
+	  
+	  <span class="author meta-data" title="kiri">
+	    kiri
+	  </span>
+	  
+	  
+	  <span class="date middot meta-data" title='Sun Feb 2 2025 00:00:00 UTC'>
+	    2025-02-02
+	  </span>
+	  <span class="reading-time middot meta-data">
+	    5 min read
+	  </span>
+	  
+	  <span class="middot meta-data">
+	    edit count: 2
+	  </span>
+	  
+	  
+	  <a class="middot meta-data" href="/blog/en/decoration-in-kotlin/">Permalink</a>
+	  <div class="d-none d-md-inline tags">
+	    <ul class="list-unstyled d-inline">
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/kotlin">
+		  #kotlin
+		</a>
+	      </li>
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/patterns">
+		  #patterns
+		</a>
+	      </li>
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/best-practices">
+		  #best-practices
+		</a>
+	      </li>
+	      
+	    </ul>
+	  </div>
+	</div>
+	<div class="markdown blog-post-content">
+	  <p>When I&rsquo;m bumping into an interface with only one implementation, it makes me think of reasons why is that interface even needed?</p>
+<h1 id="common-arguments">Common arguments</h1>
+<p>Interfaces are good for many things: promote code re-use by abstraction, help define boundaries in architecture, provide a form of multiple
+inheritance and so on, but usually a common argument for using them is that they make it easy to swap implementations, thus they also help with testing.
+The counter argument often is that when it&rsquo;s very likely that the interface will not have other implementations, the interface becomes
+mere boilerplate code adding to cognitive complexity. Furthermore, if you use ProGuard then such an interface will get completely
+removed from the final artifact anyway due to merging of the class hierarchy (see the list of <a href="https://www.guardsquare.com/manual/configuration/optimizations">optimizations</a>).
+With mocking libraries you don&rsquo;t strictly need them either because it&rsquo;s also possible to mock or fake classes just as conveniently as interfaces.</p>
+<p>I would argue that many people tend to forget how interfaces in Kotlin also help with following the <a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">single-responsibility principle</a>
+by making it so convenient to implement the <a href="https://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.</p>
+<h1 id="composition">Composition</h1>
+<p>Kotlin has a really nice feature among many: <a href="https://kotlinlang.org/docs/delegation.html">delegation</a> using the <code>by</code> keyword. Inheritance and composition
+are the two main forms of reusing code. By using delegation you can take advantage of <a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">composition over inheritance</a> in
+a very convenient fashion, because delegation is a form of composition.</p>
+<blockquote>
+<p>To favor composition over inheritance is a design principle that gives the design higher flexibility. It is more natural to build business-domain classes out of various components than trying to find commonality between them and creating a family tree.</p>
+</blockquote>
+<p>Delegation in Kotlin only <em>works with interfaces</em> however, partly because classes have constructors and those would have to be delegated somehow too. Composition doesn&rsquo;t
+require the involved classes to be open, hence it is also possible to use types in your composition from external dependencies. Inheritance would be impossible for
+external types which are declared as final.</p>
+<h2 id="example">Example</h2>
+<p>Let&rsquo;s say you have a class which you expect to only ever have a single implementation, because it implements some kind of fundamental business logic that
+when changed must mean that the whole purpose of the application would be defeated.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">ChocolateFactory</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">cocoaProvider</span>: CocoaProvider,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">milkProvider</span>: MilkProvider,
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">produce</span>(): Chocolate {
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">result</span> = <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>        <span style="color:#ca9ee6">return</span> result
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>}
+</span></span></code></pre></div><p>For some strange business reason the client decides that <a href="https://villains.fandom.com/wiki/The_Chocolate_Cartel">The Chocolate Cartel</a>
+must be notified every time some number of chocolates had been produced. An obvious change to the existing code could be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">ChocolateFactory</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">cocoaProvider</span>: CocoaProvider,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">milkProvider</span>: MilkProvider,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">hotline</span>: Hotline,
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">var</span> <span style="color:#ef9f76">numOfProducts</span> = <span style="color:#ef9f76">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// Add extra behavior according to the new requirement
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">produce</span>(): Chocolate {
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">result</span> = <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>        numOfProducts <span style="color:#99d1db;font-weight:bold">+=</span> <span style="color:#ef9f76">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">if</span> (numOfProducts <span style="color:#99d1db;font-weight:bold">==</span> CARTEL_THRESHOLD) {
+</span></span><span style="display:flex;"><span>            numOfProducts = <span style="color:#ef9f76">0</span>
+</span></span><span style="display:flex;"><span>            hotline.call(<span style="color:#a6d189">&#34;Miss Bon-Bon&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">return</span> result
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>}
+</span></span></code></pre></div><p>But there&rsquo;s an obvious problem with the above solution; it violates the single-responsibility principle: <code>ChocolateFactory</code> becomes responsible
+for more than just producing chocolates - it could now potentially change both because of new notification requirements or
+because of the way chocolates are produced becomes different. Making a shady phone call is unrelated to the operation of making chocolate,
+so it can also be confusing why is <code>Hotline</code> a hard dependency.</p>
+<p>A better solution might be to inherit from the base <code>ChocolateFactory</code> and extend the <code>produce()</code> method to also include the notification behavior.
+This could look like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#737994;font-style:italic">// Make the factory open
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span><span style="color:#ca9ee6">open</span> <span style="color:#ca9ee6">class</span> <span style="color:#e5c890">ChocolateFactory</span>(<span style="color:#737994;font-style:italic">/* .. */</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">ShadyChocolateFactory</span>(
+</span></span><span style="display:flex;"><span>    cocoaProvider: CocoaProvider,
+</span></span><span style="display:flex;"><span>    milkProvider: MilkProvider,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">hotline</span>: Hotline,
+</span></span><span style="display:flex;"><span>) : ChocolateFactory(
+</span></span><span style="display:flex;"><span>    cocoaProvider,
+</span></span><span style="display:flex;"><span>    milkProvider,
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">var</span> <span style="color:#ef9f76">numOfProducts</span> = <span style="color:#ef9f76">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// Extend this method with the extra behavior
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>    <span style="color:#ca9ee6">override</span> <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">produce</span>(): Chocolate {
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">result</span> = <span style="color:#ca9ee6">super</span>.produce()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        numOfProducts <span style="color:#99d1db;font-weight:bold">+=</span> <span style="color:#ef9f76">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">if</span> (numOfProducts <span style="color:#99d1db;font-weight:bold">==</span> CARTEL_THRESHOLD) {
+</span></span><span style="display:flex;"><span>            numOfProducts = <span style="color:#ef9f76">0</span>
+</span></span><span style="display:flex;"><span>            hotline.call(<span style="color:#a6d189">&#34;Miss Bon-Bon&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">return</span> result
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>}
+</span></span></code></pre></div><p>In order to use inheritance, additional changes have to be made which can result in more difficult maintenance. First the <code>ChocolateFactory</code> must be changed to mark it <code>open</code>,
+then the child class must call the super constructor with all the required arguments. The super constructor itself may also change in the future (perhaps add a <code>PeanutProvider</code>?)
+making it then mandatory to modify the constructor call at multiple locations in the code.</p>
+<p>How to do add this feature using composition? Let&rsquo;s try to introduce an interface for the class:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#ca9ee6">interface</span> <span style="color:#e5c890">ChocolateFactory</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">produce</span>(): Chocolate
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>}
+</span></span></code></pre></div><p>Let the original implementation be called <code>OriginalChocolateFactory</code> and move all the tracking related logic out of it to its own class:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#737994;font-style:italic">// Original implementation unchanged
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">OriginalChocolateFactory</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">cocoaProvider</span>: CocoaProvider,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">milkProvider</span>: MilkProvider,
+</span></span><span style="display:flex;"><span>) : ChocolateFactory {
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic">// This new factory doesn&#39;t need to repeat the constructor and
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic">// it can have the extra dependency for its shady operation
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">ShadyChocolateFactory</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">decoratedFactory</span>: OriginalChocolateFactory,
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">hotline</span>: Hotline,
+</span></span><span style="display:flex;"><span>) : ChocolateFactory <span style="color:#ca9ee6">by</span> decoratedFactory {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">var</span> <span style="color:#ef9f76">numOfProducts</span> = <span style="color:#ef9f76">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">override</span> <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">produce</span>(): Chocolate {
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">result</span> = decoratedFactory.produce()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        numOfProducts <span style="color:#99d1db;font-weight:bold">+=</span> <span style="color:#ef9f76">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">if</span> (numOfProducts <span style="color:#99d1db;font-weight:bold">==</span> CARTEL_THRESHOLD) {
+</span></span><span style="display:flex;"><span>            numOfProducts = <span style="color:#ef9f76">0</span>
+</span></span><span style="display:flex;"><span>            hotline.call(<span style="color:#a6d189">&#34;Miss Bon-Bon&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">return</span> result
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The additional benefit of using decoration is that neither the original class, nor its unit tests have to be modified while adding new functionality.</p>
+<h1 id="links">Links</h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Decorator_pattern">Decorator pattern</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Composition_over_inheritance">Composition over inheritance</a></li>
+<li><a href="https://kotlinlang.org/docs/delegation.html">Delegation</a> in Kotlin</li>
+<li><a href="https://en.wikipedia.org/wiki/Single-responsibility_principle">Single-responsibility principle</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle">Open-closed principle</a></li>
+</ul>
+
+
+	</div>
+	
+      </div>
+      <hr class="footer-linebreak">
+<div class="container">
+  <span class="row justify-content-center meta" id="footer">
+    Copyright © 2026 Károly Kiripolszky
+  </span>
+  <script defer src="/js/custom.js"></script>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+  </body>
+
+</html>

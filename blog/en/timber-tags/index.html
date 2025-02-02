@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Using tags with Timber - mémgyár </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="referrer" content="no-referrer">
+    <meta property="og:site_name" content="mémgyár">
+    <meta property="og:locale" content="en_US">
+
+    <meta property="og:url" content="/blog/en/timber-tags/">
+  <meta property="og:site_name" content="mémgyár">
+  <meta property="og:title" content="Using tags with Timber">
+  <meta property="og:description" content="The Android logging functions (the methods of the Log class) accept a tag argument that can be used to identify the source of the log message. It is common practice to use a constant to define this tag, like in the following example:
+class Frobnicator { fun frobnicate() { Log.d(TAG, &#34;Executing frobnicate&#34;) } fun fooBar() { Log.d(TAG, &#34;Executing fooBar&#34;) } companion object { private val TAG: String = Frobnicator::class.simpleName!! } } Setting a tag can be achieved in Timber by using the tag() method, for instance:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-05-22T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-22T00:00:00+00:00">
+    <meta property="article:tag" content="Kotlin">
+    <meta property="article:tag" content="Logging">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <meta name="twitter:title" content="Using tags with Timber">
+    <meta name="twitter:description" content="">
+    
+
+    <meta name="twitter:image" content="/">
+    <link rel="canonical" href="/blog/en/timber-tags/">
+    
+    <link rel="stylesheet" href="/css/site.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+    </head>
+
+  <body>
+    
+<div class="mt-xl header">
+  <header>
+    <div class="container">
+      <div class="row justify-content-center">
+	<div class="col-auto">
+	  <a href="/" style="display: contents">
+	    <h1 class="name text-center">m;mgy&#39;r</h1>
+	  </a>
+	</div>
+      </div>
+      <div class="row justify-content-center">
+	<div class="nav justify-content-center">
+	  <ul>
+	    
+	    
+	  </ul>
+	</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-lg-8">
+	<h1 class="mx-0 mx-md-4 blog-post-title">Using tags with Timber</h1>
+	<div class="meta-data meta">
+	  
+	  
+	  
+	  <span class="author meta-data" title="kiri">
+	    kiri
+	  </span>
+	  
+	  
+	  <span class="date middot meta-data" title='Thu May 22 2025 00:00:00 UTC'>
+	    2025-05-22
+	  </span>
+	  <span class="reading-time middot meta-data">
+	    1 min read
+	  </span>
+	  
+	  
+	  <a class="middot meta-data" href="/blog/en/timber-tags/">Permalink</a>
+	  <div class="d-none d-md-inline tags">
+	    <ul class="list-unstyled d-inline">
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/kotlin">
+		  #kotlin
+		</a>
+	      </li>
+	      
+	      <li class="d-inline" style="margin-right: 0.5rem">
+		<a href="/tags/logging">
+		  #logging
+		</a>
+	      </li>
+	      
+	    </ul>
+	  </div>
+	</div>
+	<div class="markdown blog-post-content">
+	  <p>The Android logging functions (the methods of the <code>Log</code> class) accept a tag argument that can be used to identify the source of the log message.
+It is common practice to use a constant to define this tag, like in the following example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">Frobnicator</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">frobnicate</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c890">Log</span>.d(TAG, <span style="color:#a6d189">&#34;Executing frobnicate&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">fooBar</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#e5c890">Log</span>.d(TAG, <span style="color:#a6d189">&#34;Executing fooBar&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">companion</span> <span style="color:#ca9ee6">object</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">TAG</span>: String = Frobnicator<span style="color:#99d1db;font-weight:bold">::</span><span style="color:#ca9ee6">class</span>.simpleName<span style="color:#99d1db;font-weight:bold">!!</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Setting a tag can be achieved in Timber by using the <code>tag()</code> method, for instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#e5c890">Timber</span>.tag(TAG).d(<span style="color:#a6d189">&#34;The medium is the massage&#34;</span>)
+</span></span></code></pre></div><p>Although please note that <code>tag()</code> returns a new <a href="https://jakewharton.github.io/timber/docs/5.x/timber/timber.log/-timber/-tree/index.html"><code>Tree</code></a>
+instance, hence the constant isn&rsquo;t really needed and setting the tag can be shortened to returning the logger instance directly.</p>
+<div class="highlight"><pre tabindex="0" style="color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#ca9ee6">class</span> <span style="color:#e5c890">DefaultFrobnicator</span> : Frobnicator {
+</span></span><span style="display:flex;"><span>    <span style="color:#737994;font-style:italic">// no need to define the tag separately
+</span></span></span><span style="display:flex;"><span><span style="color:#737994;font-style:italic"></span>    <span style="color:#ca9ee6">private</span> <span style="color:#ca9ee6">val</span> <span style="color:#ef9f76">log</span>: <span style="color:#e5c890">Timber</span>.Tree
+</span></span><span style="display:flex;"><span>        <span style="color:#ca9ee6">get</span>() = <span style="color:#e5c890">Timber</span>.tag(Frobnicator<span style="color:#99d1db;font-weight:bold">::</span><span style="color:#ca9ee6">class</span>.simpleName<span style="color:#99d1db;font-weight:bold">!!</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">frobnicate</span>() {
+</span></span><span style="display:flex;"><span>        log.d(<span style="color:#a6d189">&#34;Executing frobnicate&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ca9ee6">fun</span> <span style="color:#8caaee">fooBar</span>() {
+</span></span><span style="display:flex;"><span>        log.d(<span style="color:#a6d189">&#34;Executing fooBar&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+
+	</div>
+	
+      </div>
+      <hr class="footer-linebreak">
+<div class="container">
+  <span class="row justify-content-center meta" id="footer">
+    Copyright © 2026 Károly Kiripolszky
+  </span>
+  <script defer src="/js/custom.js"></script>
+
+</div>
+
+    </div>
+  </div>
+</div>
+
+  </body>
+
+</html>

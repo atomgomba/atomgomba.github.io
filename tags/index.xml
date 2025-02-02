@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <title>Tags on mémgyár</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on mémgyár</description>
+    
+    <language>en</language>
+    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Best-Practices</title>
+      <link>/tags/best-practices/</link><pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/best-practices/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kotlin</title>
+      <link>/tags/kotlin/</link><pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Patterns</title>
+      <link>/tags/patterns/</link><pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/patterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Logging</title>
+      <link>/tags/logging/</link><pubDate>Thu, 22 May 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/logging/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Guide</title>
+      <link>/tags/guide/</link><pubDate>Sun, 09 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/guide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Publishing</title>
+      <link>/tags/publishing/</link><pubDate>Sun, 09 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/publishing/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
