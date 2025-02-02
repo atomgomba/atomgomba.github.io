@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <title>Guide on mémgyár</title>
+    <link>/tags/guide/</link>
+    <description>Recent content in Guide on mémgyár</description>
+    
+    <language>en</language>
+    <lastBuildDate>Sun, 09 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/guide/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Publishing to Maven Central in 2025</title>
+      <link>/blog/en/publishing-to-maven-central/</link>
+      <category>publishing</category>
+      <category>guide</category><pubDate>Sun, 09 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/publishing-to-maven-central/</guid>
+      <description>The process of publishing artifacts to Maven Central Repository is well documented, but important information are scattered throughout the web and there are some caveats. This guide focuses on publishing a library using Gradle. The steps will be the same for Java, Kotlin (also Multiplatform) and Android projects as well. This is not a complete guide, rather a collection of gotchas I couldn&amp;rsquo;t find anywhere else; for the rest of the steps just follow the official guides.</description>
+    </item>
+    
+  </channel>
+</rss>

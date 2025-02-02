@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <title>Patterns on mémgyár</title>
+    <link>/tags/patterns/</link>
+    <description>Recent content in Patterns on mémgyár</description>
+    
+    <language>en</language>
+    <lastBuildDate>Sun, 02 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/patterns/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Decoration in Kotlin</title>
+      <link>/blog/en/decoration-in-kotlin/</link>
+      <category>kotlin</category>
+      <category>patterns</category><pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/decoration-in-kotlin/</guid>
+      <description>When I&amp;rsquo;m bumping into an interface with only one implementation, it makes me think of reasons why is that interface even needed?
+Common arguments Interfaces are good for many things: promote code re-use by abstraction, help define boundaries in architecture, provide a form of multiple inheritance and so on, but usually a common argument for using them is that they make it easy to swap implementations, thus they also help with testing.</description>
+    </item>
+    
+  </channel>
+</rss>
