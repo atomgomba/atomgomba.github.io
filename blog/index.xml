@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <title>Blogs on mémgyár</title>
+    <link>/blog/</link>
+    <description>Recent content in Blogs on mémgyár</description>
+    
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data classes and compiler safety</title>
+      <link>/blog/en/defaults-in-data-classes/</link>
+      <category>kotlin</category>
+      <category>patterns</category>
+      <category>best-practices</category><pubDate>Wed, 25 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/defaults-in-data-classes/</guid>
+      <description>&lt;p&gt;When adding a new property to an existing data class, the compiler can warn us when we forget to initialize its value somewhere in the codebase. But it can only help if the new property does not have a default value: without the help from the compiler, it is very easy to miss an unset value, particularly in &lt;em&gt;large&lt;/em&gt; code bases! Going through all the places where the property is used also gives us a valuable chance to revisit the business logic and think about why and where it is used.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Using tags with Timber</title>
+      <link>/blog/en/timber-tags/</link>
+      <category>kotlin</category>
+      <category>logging</category><pubDate>Thu, 22 May 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/timber-tags/</guid>
+      <description>&lt;p&gt;The Android logging functions (the methods of the &lt;code&gt;Log&lt;/code&gt; class) accept a tag argument that can be used to identify the source of the log message.
+It is common practice to use a constant to define this tag, like in the following example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#e5c890&#34;&gt;Frobnicator&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;val&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;listener&lt;/span&gt; = &lt;span style=&#34;color:#ca9ee6&#34;&gt;object&lt;/span&gt; &lt;span style=&#34;color:#e78284&#34;&gt;: &lt;/span&gt;&lt;span style=&#34;color:#e5c890&#34;&gt;FooBarListener&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#ca9ee6&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#8caaee&#34;&gt;listen&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c890&#34;&gt;Log&lt;/span&gt;.d(TAG, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;Logging with expected tag&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#8caaee&#34;&gt;frobnicate&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c890&#34;&gt;Log&lt;/span&gt;.d(TAG, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;Executing frobnicate&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;companion&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;object&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#ca9ee6&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;val&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;TAG&lt;/span&gt;: String = &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;Frobnicator&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Setting a tag can be achieved in Timber by using the &lt;code&gt;tag()&lt;/code&gt; method, for instance:&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Publishing to Maven Central in 2025</title>
+      <link>/blog/en/publishing-to-maven-central/</link>
+      <category>publishing</category>
+      <category>guide</category><pubDate>Sun, 09 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/publishing-to-maven-central/</guid>
+      <description>&lt;p&gt;The process of publishing artifacts to Maven Central Repository is well documented, but important information are scattered throughout the web and there are some caveats.
+This guide focuses on publishing a library using Gradle. The steps will be the same for Java, Kotlin (also Multiplatform) and Android projects as well. This is &lt;em&gt;not&lt;/em&gt; a
+complete guide, rather a collection of gotchas I couldn&amp;rsquo;t find anywhere else; for the rest of the steps just follow the official guides.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Decoration in Kotlin</title>
+      <link>/blog/en/decoration-in-kotlin/</link>
+      <category>kotlin</category>
+      <category>patterns</category>
+      <category>best-practices</category><pubDate>Sun, 02 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/decoration-in-kotlin/</guid>
+      <description>&lt;p&gt;When I&amp;rsquo;m bumping into an interface with only one implementation, it makes me think of reasons why is that interface even needed?&lt;/p&gt;
+&lt;h1 id=&#34;common-arguments&#34;&gt;Common arguments&lt;/h1&gt;
+&lt;p&gt;Interfaces are good for many things: promote code re-use by abstraction, help define boundaries in architecture, provide a form of multiple
+inheritance and so on, but usually a common argument for using them is that they make it easy to swap implementations, thus they also help with testing.
+The counter argument often is that when it&amp;rsquo;s very likely that the interface will not have other implementations, the interface becomes
+mere boilerplate code adding to cognitive complexity. Furthermore, if you use ProGuard then such an interface will get completely
+removed from the final artifact anyway due to merging of the class hierarchy (see the list of &lt;a href=&#34;https://www.guardsquare.com/manual/configuration/optimizations&#34;&gt;optimizations&lt;/a&gt;).
+With mocking libraries you don&amp;rsquo;t strictly need them either because it&amp;rsquo;s also possible to mock or fake classes just as conveniently as interfaces.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+  <channel>
+    <title>Logging on mémgyár</title>
+    <link>/tags/logging/</link>
+    <description>Recent content in Logging on mémgyár</description>
+    
+    <language>en-us</language>
+    <lastBuildDate>Thu, 22 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/logging/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using tags with Timber</title>
+      <link>/blog/en/timber-tags/</link>
+      <category>kotlin</category>
+      <category>logging</category><pubDate>Thu, 22 May 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/en/timber-tags/</guid>
+      <description>&lt;p&gt;The Android logging functions (the methods of the &lt;code&gt;Log&lt;/code&gt; class) accept a tag argument that can be used to identify the source of the log message.
+It is common practice to use a constant to define this tag, like in the following example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#c6d0f5;background-color:#303446;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ca9ee6&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#e5c890&#34;&gt;Frobnicator&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;val&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;listener&lt;/span&gt; = &lt;span style=&#34;color:#ca9ee6&#34;&gt;object&lt;/span&gt; &lt;span style=&#34;color:#e78284&#34;&gt;: &lt;/span&gt;&lt;span style=&#34;color:#e5c890&#34;&gt;FooBarListener&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#ca9ee6&#34;&gt;override&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#8caaee&#34;&gt;listen&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#e5c890&#34;&gt;Log&lt;/span&gt;.d(TAG, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;Logging with expected tag&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#8caaee&#34;&gt;frobnicate&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e5c890&#34;&gt;Log&lt;/span&gt;.d(TAG, &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;Executing frobnicate&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ca9ee6&#34;&gt;companion&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;object&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#ca9ee6&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#ca9ee6&#34;&gt;val&lt;/span&gt; &lt;span style=&#34;color:#ef9f76&#34;&gt;TAG&lt;/span&gt;: String = &lt;span style=&#34;color:#a6d189&#34;&gt;&amp;#34;Frobnicator&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Setting a tag can be achieved in Timber by using the &lt;code&gt;tag()&lt;/code&gt; method, for instance:&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
